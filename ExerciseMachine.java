@@ -1,15 +1,15 @@
 public class ExerciseMachine {
    public int getPercentages(String time) {
-       int H = 0,  M = 0, S=0;
-       H = Integer.parseInt(time.substring(0, 2));
-       M = Integer.parseInt(time.substring(3, 5));
-       S = Integer.parseInt(time.substring(6, 8));
+       String[] s = time.split(":");
+       int H = Integer.parseInt(s[0]);
+       int M = Integer.parseInt(s[1]);
+       int S = Integer.parseInt(s[2]);
 
        double sum = H*60*60 + M*60 + S;
+
        int cnt=0;
        for (int i=1;i<100;i++) {
-           if((sum*i%100) > 0){
-           } else
+           if((sum*i%100) == 0)
                cnt++;
        }
        return cnt;
