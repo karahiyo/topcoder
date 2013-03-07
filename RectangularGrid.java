@@ -1,31 +1,11 @@
-import java.lang.*;
-import java.util.ArrayList;
-
 public class RectangularGrid {
    public long countRectangles(int width, int height) {
-       class fig {
-           int width;
-           int height;
-           fig(int a,  int b) {
-               this.width = a;
-               this.height = b;
-           }
-       }
-
-       ArrayList<fig> figs = new ArrayList<fig>();
+       long sum=0;
        for(int i=1; i<=width;i++) {
            for(int j=1; j<=height;j++) {
-               if(i!=j) {
-                   fig F = new fig(i, j);
-                   figs.add(F);
-               }
+               if(i!=j)
+                   sum += (width+1 - i) * (height+1 - j);
            }
-       }
-
-       long sum = 0;
-       int len = figs.size();
-       for(fig n : figs) {
-           sum += (width+1 - n.width) * (height+1 - n.height);
        }
        return sum;
    }
