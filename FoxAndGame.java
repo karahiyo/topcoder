@@ -1,6 +1,5 @@
 public class FoxAndGame {
    public int countStars(String[] result) {
-		
    }
 
 
@@ -24,7 +23,7 @@ class FoxAndGameHarness {
 				System.err.println("Illegal input! Test case " + casenum + " does not exist.");
 			return;
 		}
-		
+
 		int correct = 0, total = 0;
 		for (int i=0;; ++i) {
 			int x = runTestCase(i);
@@ -35,7 +34,7 @@ class FoxAndGameHarness {
 			correct += x;
 			++total;
 		}
-		
+
 		if (total == 0) {
 			System.err.println("No test cases run.");
 		} else if (correct < total) {
@@ -44,21 +43,21 @@ class FoxAndGameHarness {
 			System.err.println("All " + total + " tests passed!");
 		}
 	}
-	
+
 	static boolean compareOutput(int expected, int result) { return expected == result; }
 	static String formatResult(int res) {
 		return String.format("%d", res);
 	}
-	
-	static int verifyCase(int casenum, int expected, int received) { 
+
+	static int verifyCase(int casenum, int expected, int received) {
 		System.err.print("Example " + casenum + "... ");
 		if (compareOutput(expected, received)) {
 			System.err.println("PASSED");
 			return 1;
 		} else {
 			System.err.println("FAILED");
-			System.err.println("    Expected: " + formatResult(expected)); 
-			System.err.println("    Received: " + formatResult(received)); 
+			System.err.println("    Expected: " + formatResult(expected));
+			System.err.println("    Received: " + formatResult(received));
 			return 0;
 		}
 	}
