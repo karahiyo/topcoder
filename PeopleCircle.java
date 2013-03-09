@@ -15,13 +15,11 @@ public class PeopleCircle {
         }
 
         int rmposition = 0;
-        int j = 0;
+        int prvposition = 0;
         for(int i=1;i<=numFemales;i++) {
-            rmposition = (j + K - 1)%circle.size();
+            rmposition = (prvposition + K - 1)%circle.size();
             positions.add(circle.get(rmposition));
-            if (circle.size() > 1) {
-                j = (rmposition)%(circle.size() - 1);
-            }
+            prvposition = rmposition;
             circle.remove(rmposition);
         }
 
