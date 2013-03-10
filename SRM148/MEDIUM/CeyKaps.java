@@ -17,8 +17,6 @@ public class CeyKaps {
            }
        }
        return String.valueOf(rec);
-
-
    }
 
 
