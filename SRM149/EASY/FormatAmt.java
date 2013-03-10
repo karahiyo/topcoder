@@ -3,11 +3,14 @@
  */
 public class FormatAmt {
    public String amount(int dollars, int cents) {
+       return String.format("$%,d.%02d", dollars, cents);
+   }
+       /*
        StringBuilder D = new StringBuilder(""+dollars);
        for(int i=3;i<D.length();i+=4)
            D.insert(D.length()-i, ",");
        return "$"+D.toString()+"."+((cents < 10)?"0"+cents:cents);
-   }
+       */
 
 
 // BEGIN CUT HERE
