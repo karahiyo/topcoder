@@ -4,16 +4,12 @@ public class PrefixCode {
        if (words.length == 1)
            return "Yes";
        for(int i=0;i<words.length;i++) {
-           int check = 0;
            for (int j=0;j<words.length; j++) {
                if(i==j)
                    continue;
-
                if(words[j].startsWith(words[i]))
-                   check++;
+                   return "No, "+i;
            }
-           if(check > 0)
-               return "No, " + i;
        }
        return "Yes";
    }
