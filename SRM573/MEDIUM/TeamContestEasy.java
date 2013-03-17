@@ -23,10 +23,8 @@ public class TeamContestEasy {
                 for (int k=j+1;k<S.size();k++) {
                     if (mine < teamVal(S, i, j, k)) {
                         rec++;
-                        S.remove(k);
-                        S.remove(j);
-                        S.remove(i);
-                        i=0; j=1; k=2;
+                        S.remove(k);S.remove(j);S.remove(i);
+                        i=0;j=1;k=2;
                     }
                 }
             }
