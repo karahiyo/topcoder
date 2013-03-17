@@ -7,12 +7,10 @@ public class Inventory {
        for (int i=0;i<sales.length;i++) {
            if (sales[i] == 0 || daysAvailable[i] == 0)
                continue;
-           System.err.print(30/daysAvailable[i]+"\n");
-           rec += Math.ceil(sales[i]*30.0/(double)daysAvailable[i]);
+           rec += sales[i]*30.0/(double)daysAvailable[i];
            x++;
        }
-       System.err.print((double)rec/x+"\n");
-       return (int)Math.ceil(rec/x);
+       return (int)Math.ceil((rec - 1e-9)/x);
 
    }
 
