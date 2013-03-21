@@ -1,25 +1,25 @@
+import java.util.HashMap;
+
 public class InterestingParty {
    public int bestInvitation(String[] first, String[] second) {
-       int count1 = 1;
-       int count2 = 1;
-       int max = 1;
-       for(int i=0;i<first.length;i++) {
-           String f = first[i];
-           String s = second[i];
-           count1 = 1;
-           count2 = 1;
-           for(int j=0;j<first.length;j++) {
-               if(i==j) continue;
-               if(f.equals(first[j])||f.equals(second[j]))
-                   count1++;
-               if(s.equals(first[j])||s.equals(second[j]))
-                   count2++;
-           }
-           max = max>count1?max:count1;
-           max = max>count2?max:count2;
-       }
-       return max;
+       HashMap<String, Integer> dic = new HashMap<String, Integer>();
 
+       for (int i=0;i<first.length;i++) {
+           if(dic.containsKey(first[i]))
+               dic.put(first[i], dic.get(first[i])+1);
+           else
+               dic.put(first[i], 1);
+
+           if(dic.containsKey(second[i]))
+               dic.put(second[i], dic.get(second[i])+1);
+           else
+               dic.put(second[i], 1);
+       }
+       int ans = 0;
+       for (String key : dic.keySet())
+           ans = ans>dic.get(key)?ans:dic.get(key);
+
+       return ans;
    }
 
 
