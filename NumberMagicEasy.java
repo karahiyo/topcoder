@@ -7,35 +7,31 @@ public class NumberMagicEasy {
                        {1, 2, 5, 6, 9, 10, 13, 14},
                        {1, 3, 5, 7, 9, 11, 13, 15}};
 
-       HashMap<Integer, Integer> ans = new HashMap<Integer, Integer>();
-       for(int i=1; i <= 16; i++) {
-           ans.put(i, 0);
-       }
-
-       int ynum = 0;
-       for(int i=0;i<answer.length();i++) {
-           if(answer.charAt(i) == 'N') {
-               for(int j=0;j<card[i].length;j++) {
-                   ans.remove(card[i][j]);
+       boolean ok = true;
+       for(int i=1; i<=16; i++) {
+           ok = true;
+           for(int j=0;j<4;j++)
+               if(!Check(i, card[j], answer.charAt(j))) {
+                   ok = false;
+                   break;
                }
-           } else {
-               for(int j=0;j<card[i].length;j++){
-                   if(ans.containsKey(card[i][j])) {
-                       ans.put(card[i][j], ans.get(card[i][j])+1);
-                   }
-               }
-               ynum++;
-           }
+           if(ok) return i;
        }
-       int rec = 0;
-       for(int k : ans.keySet()) {
-           if(ans.get(k)==ynum) {
-               rec = k;
-               break;
+       return 0;
+   }
+   boolean Check(int x, int[] card, char YN) {
+       if(YN == 'N') {
+           for(int i=0;i<card.length;i++) {
+               if(card[i] == x)
+                   return false;
            }
+           return true;
        }
-       return rec;
-
+       for(int i=0;i<card.length;i++) {
+           if(card[i] == x)
+               return true;
+       }
+       return false;
    }
 
 
