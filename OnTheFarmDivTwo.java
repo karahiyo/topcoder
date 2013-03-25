@@ -2,19 +2,11 @@ import java.lang.Math;
 
 public class OnTheFarmDivTwo {
    public int[] animals(int heads, int legs) {
-       int[] rec = new int[2];
-       int[] bad = new int[0];
-       double tmp= ((double)legs - 2.0*(double)heads)/2.0;
-       System.err.print(tmp);
-       if(Math.floor(tmp) != Math.ceil(tmp))
-           return bad;
-       rec[1] = (int)tmp;
-       rec[0] = heads - rec[1];
-       if(rec[0] < 0) return bad;
-       if(rec[1] < 0) return bad;
-
-       return rec;
-
+       for(int chickens=0, cows=heads; chickens <= heads; chickens++, cows--) {
+           if(2*chickens+4*cows==legs)
+               return new int[]{chickens, cows};
+       }
+       return new int[0];
    }
 
 
