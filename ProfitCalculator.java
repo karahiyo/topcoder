@@ -1,15 +1,3 @@
-import java.util.*;
-import java.util.regex.*;
-import java.math.*;
-import java.text.*;
-import java.io.*;
-import java.lang.*;
-import static java.lang.Math.*;
-import static java.math.BigInteger.*;
-import static java.util.Arrays.*;
-import static java.util.Collections.*;
-import static java.lang.System.*;
-
 public class ProfitCalculator {
    public int percent(String[] items) {
        double[] costs = new double[items.length];
@@ -26,12 +14,7 @@ public class ProfitCalculator {
            price_sum += prices[i];
            cost_sum += costs[i];
        }
-
-       double benefit = price_sum - cost_sum;
-       double margin = (benefit*100 / price_sum);
-       return (int)margin;
-
-
+       return (int)((price_sum - cost_sum)*100 / price_sum);
    }
 
 
