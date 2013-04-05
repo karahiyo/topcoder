@@ -26,20 +26,20 @@ public class ContestScore {
     }
 
     public String[] sortResults(String[] data) {
+        if(data.length == 0) return new String[]{};
         int[] team_rank = new int[data.length];
         double[] team_points = new double[data.length];
-        int len = data[0].split(" ").length;
-        for(int i=1;i<len;i++) {
-            double[] col_point = new double[data.length];
-            for(int j=0;j<len-1;j++) {
-                System.err.print(j+":"+data[j]+"\n");
-                System.err.print((data[j].split(" "))[i]+"\n");
+        int game_num = data[0].split(" ").length-1;
+        int man_num = data.length;
+        for(int i=1;i<=game_num;i++) {
+            double[] col_point = new double[man_num];
+            for(int j=0;j<man_num;j++) {
                 col_point[j] = Double.parseDouble(((data[j].split(" "))[i]));
             }
-            for(int j=0;j<len-1;j++) {
-                System.err.print("[rank]"+ranking(col_point)[j]+"\n");
+            for(int j=0;j<man_num;j++) {
                 team_rank[j] += (ranking(col_point))[j];
-                team_points[j] += col_point[j];
+                BigDecimal a = new BigDecimal(col_point[j]);
+                team_points[j] += a.doubleValue();
             }
         }
         HashMap<String, Integer> map = new HashMap<String, Integer>();
@@ -48,7 +48,6 @@ public class ContestScore {
             map.put((data[i].split(" "))[0], team_rank[i]);
             score_map.put((data[i].split(" "))[0], team_points[i]);
         }
-        System.err.print(map+"\n");
         String[] rec = new String[map.size()];
 
         List<Map.Entry> entries = new ArrayList<Map.Entry>(map.entrySet());
@@ -61,7 +60,8 @@ public class ContestScore {
         });
         int i = 0;
         for(Map.Entry entry : entries) {
-            rec[i] = (entry.getKey()+" "+entry.getValue()+" "+score_map.get(entry.getKey()));
+            BigDecimal a = new BigDecimal(score_map.get(entry.getKey()));
+            rec[i] = (entry.getKey()+" "+entry.getValue()+" "+a.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue());
             i++;
         }
 
