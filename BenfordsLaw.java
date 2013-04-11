@@ -2,24 +2,18 @@ import java.lang.Math;
 
 public class BenfordsLaw {
     public int questionableDigit(int[] transactions, int threshold) {
-        int len = transactions.length;
         int[] actual = new int[9];
         System.err.print("\n");
-        for(int i=0; i<9; i++) {
-            for(int j=0; j<len; j++) {
-                char first_digit = String.valueOf(transactions[j]).charAt(0);
-                //System.err.print((first_digit+1)+":"+(i+1)+"\n");
-                if((first_digit - '0') == (i+1)) {
-                    //System.err.print("@@@@@@@@@@@@@@@");
-                    actual[i] = actual[i]+1;
-                }
-            }
+        for(int i=0; i < transactions.length; i++) {
+            char first_digit = String.valueOf(transactions[i]).charAt(0);
+            int n = first_digit - '0';
+            actual[n-1]++;
         }
 
         double[] expected = new double[9];
         for(int i=0; i<9; i++) {
             if(actual[i]==0) continue;
-            expected[i] = ( Math.log(1.0+1.0/((double)i+1.0)) / Math.log(10.0))
+            expected[i] =  Math.log10(1+1.0/(i+1))
                 * transactions.length;
         }
 
@@ -33,29 +27,14 @@ public class BenfordsLaw {
             System.err.print(v+" ");
         System.err.print("\n");
 
-        int rec = -1;
-        double min = 1000;
         for(int i=0; i<9; i++) {
-            //if(actual[i] == 0) continue;
+            if(actual[i] == 0) continue;
             if(actual[i] > expected[i] * threshold ||
-                    actual[i] < expected[i] * (1.0 / threshold)) {
-                min = expected[i]/actual[i];
-                rec = i+1;
-                System.err.print("["+rec+"] min = "+min+"\n");
+                    actual[i] < expected[i] / threshold) {
                 return i+1;
             }
-            /*
-            else if (threshold < actual[i]/expected[i]
-                    && min > actual[i]/expected[i]) {
-                min = actual[i]/expected[i];
-                rec = i+1;
-                System.err.print("["+rec+"] min = "+min+"\n");
-            }
-            */
         }
-
         return -1;
-
    }
 
 
