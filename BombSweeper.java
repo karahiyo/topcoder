@@ -1,20 +1,17 @@
 public class BombSweeper {
-    public int surround(int x, int y, String[] board) {
-        int height = board.length;
-        int width = board[0].length();
+    public int surround(int x, int y, int width, int height, String[] board) {
         int[] p = {-1, 0, 1};
 
         if (board[y].charAt(x) == 'B')
             return -1;
 
-        for(int dy : p){
+        for(int dy : p)
             for(int dx : p) {
                 if( x+dx < 0 || x+dx >= width ||
                     y+dy < 0 || y+dy >= height) continue;
                 if(board[y+dy].charAt(x+dx) == 'B')
                     return 0;
             }
-        }
         return 1;
     }
 
@@ -23,16 +20,14 @@ public class BombSweeper {
         int width = board[0].length();
         int safe = 0;
         int bad = 0;
-        for(int i=0;i<height;i++) {
-            for(int j=0;j<width;j++) {
-                int f = surround(j, i, board);
-                if(f==1)
-                    safe++;
-                else if(f==-1)
-                    bad++;
-            }
+        for(int y=0;y<height;y++)
+            for(int x=0;x<width;x++) {
+                int f = surround(x, y, width, height, board);
+                if(f==1) safe++;
+                if(f==-1) bad++;
+                if(f==0) continue;
         }
-        return 100.0 * (double)safe/((double)safe+(double)bad);
+        return 100.0 * safe/((double)safe+bad);
 
     }
 
