@@ -3,7 +3,6 @@ import java.lang.Math;
 public class BenfordsLaw {
     public int questionableDigit(int[] transactions, int threshold) {
         int[] actual = new int[9];
-        System.err.print("\n");
         for(int i=0; i < transactions.length; i++) {
             char first_digit = String.valueOf(transactions[i]).charAt(0);
             int n = first_digit - '0';
@@ -12,23 +11,10 @@ public class BenfordsLaw {
 
         double[] expected = new double[9];
         for(int i=0; i<9; i++) {
-            if(actual[i]==0) continue;
-            expected[i] =  Math.log10(1+1.0/(i+1))
-                * transactions.length;
+            expected[i] =  transactions.length * Math.log10(1+1.0/(i+1));
         }
 
-        System.err.print("threshold="+threshold+"\n");
-        System.err.print("actual: ");
-        for(int v : actual)
-            System.err.print(v+" ");
-        System.err.print("\n");
-        System.err.print("expected: ");
-        for(double v : expected)
-            System.err.print(v+" ");
-        System.err.print("\n");
-
         for(int i=0; i<9; i++) {
-            if(actual[i] == 0) continue;
             if(actual[i] > expected[i] * threshold ||
                     actual[i] < expected[i] / threshold) {
                 return i+1;
