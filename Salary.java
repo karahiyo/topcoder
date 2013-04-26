@@ -8,34 +8,60 @@ import java.awt.geom.*;
 
 public class Salary {
     public int howMuch(String[] arrival, String[] departure, int wage) {
-        double p = 0;
-        int day = 24*60*60;
-        int e1 = 18*60*60; int e2 = day - 1;
-        int n1 = 0; int n2 = 6+60*60 -1;
+        String ZERO = "00:00:00";
+        String DAY = "24:00:00";
+        String START = "06:00:00";
+        String FINISH = "18:00:00";
+
+        int zero = toTimeMil(ZERO);
+        int day = toTimeMil(DAY);
+        int start = toTimeMil(START);
+        int finish = toTimeMil(FINISH);
 
         double wps = wage/(60*60.0);
-        for(int i=0; i < arrival.length; i++) {
-            int arr = parse(arrival[i]);
-            int dep = parse(departure[i]);
-            int d = dep -arr;
-            while(arr != dep) {
-                if(arr >= e1 && arr <= e2) p += 1.5 * wps;
-                else if(arr >= n1 && arr <= n2) p += 1.5 * wps;
-                else p += wps;
-                arr = (arr + 1) % day;
+
+        double total = 0;
+
+        for(int i=0; i<arrival.length; i++) {
+            int arr = toTimeMil(arrival[i]);
+            int dep = toTimeMil(departure[i]);
+
+            if(arr <= start) {
+                if(dep <= start) {
+                    total += (dep - arr) * 1.5 * wps;
+                } else if(dep <=finish) {
+                    total += (start - arr) * 1.5 * wps;
+                    total += (dep - start) * wps;
+                } else {
+                    total += (start - arr) * 1.5 * wps;
+                    total += (finish - start) * wps;
+                    total += (dep - finish) * 1.5 * wps;
+                }
+            } else if (arr <= finish) {
+                if(dep <= finish) {
+                    total += (dep - arr) * wps;
+                } else {
+                    total += (finish - arr) * wps;
+                    total += (dep - finish) * wps * 1.5;
+                }
+            }else {
+                total += (dep - arr) * 1.5 * wps;
             }
         }
-        return (int)(p + 0.000001);
+
+        return (int)total;
+
+
     }
 
-    protected int parse(String d) {
-        StringTokenizer st = new StringTokenizer(d, ":");
-        int ret = Integer.parseInt(st.nextToken()) * 60 * 60;
-        ret += Integer.parseInt(st.nextToken()) * 60;
-        ret += Integer.parseInt(st.nextToken());
+    protected int toTimeMil(String str) {
+        String[] t_s = str.split(":");
+        int ret = 0;
+        ret += Integer.valueOf(t_s[0]) * 60*60;
+        ret += Integer.valueOf(t_s[1]) * 60;
+        ret += Integer.valueOf(t_s[2]);
         return ret;
     }
-
 
     // BEGIN CUT HERE
     public static void main(String[] args) {
