@@ -1,45 +1,22 @@
+import java.util.*;
+
 public class EllysRoomAssignmentsDiv2 {
-    public double getProbability(String[] ratings) {
-        //String[][] regis = new String[50][50];
-        String[][] regis = new String[ratings.length][ratings[0].split(" ").length];
-        for(int i=0; i<ratings.length; i++) {
-            regis[i] = ratings[i].trim().split(" ");
-        }
-
-        int ellys = Integer.parseInt(regis[0][0]);
-        int rx = regis[0].length;
-        int ry = regis.length;
-        //System.err.print(rx+":"+ry+"\n");
-        int count = 0;
-        int all = -1;
-        for(int i=0; i<ry; i++) {
-            for(int j=0; j<regis[i].length; j++) {
-                System.err.print(all+"::"+Integer.parseInt(regis[i][j])+"\n");
-                all++;
-                if(ellys < Integer.parseInt(regis[i][j])) {
-                    count++;
-                }
-            }
-            //System.err.print("\n");
-        }
-
-        int r = 0;
-        if(all%20==0)
-            r = all/20;
-        else
-            r = all/20 + 1;
-
-        System.err.print("count="+count+"\n");
-        System.err.print("all="+all+"\n");
-        System.err.print("r="+r+"\n");
-
-        if(all < 20)
-            return 1.0;
-        if(count < 20)
-            return 0.0;
-        return 1.0/r;
-
-
+    public double getProbability(String[] ra) {
+        double r = 0;
+        String sc = "";
+        for(String s : ra) sc += s;
+        ra = sc.split(" ");
+        int el = 0,  n=ra.length;
+        int[] so = new int[n];
+        for(int i = 0; i<n; ++i) 
+            so[i] = Integer.parseInt(ra[i]);
+        el = so[0];
+        Arrays.sort(so);
+        int _r = (n-1) / 20 + 1;
+        for(int i=n-2; i >= n - _r; --i)
+            if(el == so[i])
+                return 0;
+        return 1.0 / _r;
     }
 
 
