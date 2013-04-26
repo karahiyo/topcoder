@@ -1,64 +1,39 @@
+import java.util.*;
+import java.util.regex.*;
+import java.text.*;
+import java.math.*;
+import java.awt.geom.*;
+
+
+
 public class Salary {
-    double[] toIntArray(String[] strs) {
-        double[] ret = new double[strs.length];
-        for (int i=0; i<strs.length; i++) {
-            ret[i] = Double.valueOf(strs[i]);
-        }
-        return ret;
-    }
-    
     public int howMuch(String[] arrival, String[] departure, int wage) {
-        double ret = 0.0;
-        double over = 0.0;
-        boolean f;
+        double p = 0;
+        int day = 24*60*60;
+        int e1 = 18*60*60; int e2 = day - 1;
+        int n1 = 0; int n2 = 6+60*60 -1;
 
-        for (int i=0;i<arrival.length;i++) {
-            double[] a = toIntArray(arrival[i].split(":"));
-            double[] d = toIntArray(departure[i].split(":"));
-            over= 0.0;
-            f = true;
-
-            if (a[0] <= 6) {
-                if(d[0] <= 6) {
-                    over +=(( d[0]+d[1]/60+d[2]/3600) - (a[0]+a[1]/60+a[2]/3600));
-                    f = false;
-                } else if (d[0] < 18) {
-                    over +=(6.0 - (a[0]+a[1]/60+a[2]/3600));
-                    a[0] = 6;
-                    a[1] = 0;
-                    a[2] = 0;
-                } else {
-                    over += (6.0 - (a[0]+a[1]/60+a[2]/3600));
-                    over += ((d[0]+d[1]/60+d[2]/3600) - 18.0);
-                    a[0] = 6;
-                    a[1] = 0;
-                    a[2] = 0;
-                    d[0] = 17;
-                    d[1] = 59;
-                    d[2] = 59;
-                }
-            } else if(a[0] >= 6 && a[0] < 18) {
-                if(d[0] < 18) {
-                    // ok
-                } else if(d[0] >= 18) {
-                    over += (d[0]+d[1]/60+d[2]+3600) - 18;
-                    d[0] = 17;
-                    d[1] = 59;
-                    d[2] = 59;
-                }
-            } else if(a[0] >= 18) {
-                over += (d[0]+d[1]/60+d[2]/3600) - (a[0]+a[1]/60+a[2]/3600);
-                f = false;
+        double wps = wage/(60*60.0);
+        for(int i=0; i < arrival.length; i++) {
+            int arr = parse(arrival[i]);
+            int dep = parse(departure[i]);
+            int d = dep -arr;
+            while(arr != dep) {
+                if(arr >= e1 && arr <= e2) p += 1.5 * wps;
+                else if(arr >= n1 && arr <= n2) p += 1.5 * wps;
+                else p += wps;
+                arr = (arr + 1) % day;
             }
-
-            if(f)
-                ret += ((d[0]+d[1]/60+d[2]/3600) - (a[0]+a[1]/60+a[2]/3600));
-                
-            System.err.print(over+"\n");
-            ret += over*1.5;
         }
-        return (int)(ret*wage);
+        return (int)(p + 0.000001);
+    }
 
+    protected int parse(String d) {
+        StringTokenizer st = new StringTokenizer(d, ":");
+        int ret = Integer.parseInt(st.nextToken()) * 60 * 60;
+        ret += Integer.parseInt(st.nextToken()) * 60;
+        ret += Integer.parseInt(st.nextToken());
+        return ret;
     }
 
 
