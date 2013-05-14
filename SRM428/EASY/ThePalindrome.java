@@ -1,16 +1,28 @@
 // SRM428 EASY
 public class ThePalindrome {
    public int find(String s) {
-       for (int i=0;;i++) {
-           if(isPalindrome(s.substring(i))) {
-               return s.length() +i;
+       int ret = -1;
+       for(int i=0;i<s.length()-1;i++) {
+           char tail = s.charAt(s.length()-1);
+           char head = s.charAt(i);
+           if(head != tail) continue;
+           for(int j=i+1;j<s.length();j++) {
+               tail = s.charAt(s.length() - j + i);
+               head = s.charAt(j);
+               if(tail == head) 
+                   continue;
+               else
+                   break;
            }
+           ret = i;
+           break;
        }
+       if(ret == -1)
+           return s.length()*2 -1;
+       else
+           return s.length() + ret;
    }
 
-   boolean isPalindrome(String str) {
-       return str.equals(new StringBuffer(str).reverse().toString());
-   }
 
 // BEGIN CUT HERE
    public static void main(String[] args) {

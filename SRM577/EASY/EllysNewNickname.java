@@ -1,3 +1,4 @@
+
 public class EllysNewNickname {
     public int getLength(String nickname) {
         int ret = 0;
