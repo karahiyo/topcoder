@@ -1,6 +1,8 @@
 public class ColorfulTilesEasy {
     public int theMin(String room) {
+
         int ret = 0;
+        boolean suq = false;
         for(int i=0;i<room.length()-1;i++) {
             char a = room.charAt(i);
             char b = room.charAt(i+1);
