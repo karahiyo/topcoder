@@ -2,55 +2,43 @@ import java.util.*;
 import java.lang.Math;
 
 public class MazeMaker {
-    public boolean checkStep(int x, int y, String[] maze, int[][] table) {
-        if(maze[y].charAt(x) == 'X') {
-            return false; 
-        } else {
-            return true;
-        }
-    }
-
-
-    public int longestPath(String[] maze, int startRow, int startCol, int[] moveRow, int[] moveCol) {
+    public int longestPath(String[] maze, int startX, int startY, int[] moveRow, int[] moveCol) {
         Queue<Integer> qx = new LinkedList<Integer>();
         Queue<Integer> qy = new LinkedList<Integer>();
 
-        qx.add(startRow);
-        qy.add(startCol);
+        qx.add(startX);
+        qy.add(startY);
 
         int maxRow = maze[0].length();
         int maxCol = maze.length;
 
-        int[][] table = new int[maxRow][maxCol];
-        for(int i=0;i<maxRow;i++)
-            for(int j=0;j<maxCol;j++) {
+        int[][] table = new int[maxCol][maxRow];
+        for(int i=0;i<maxCol;i++)
+            for(int j=0;j<maxRow;j++) {
                 table[i][j] = -1;
             }
 
-        table[startRow][startCol] = 0;
+        table[startY][startX] = 0;
 
-        while(qx.peek() != null) {
-            System.err.print(qx+":"+qy+"\n");
+        while(!qx.isEmpty()) {
+            System.err.print(qx+":"+qy+"   => ");
             int tx = qx.poll();
             int ty = qy.poll();
-            int tstep = 0;
-            if(checkStep(tx, ty, maze, table))
-                tstep = table[tx][ty];
-            else
+            System.err.print(table[ty][tx]+"\n");
+            if(maze[ty].charAt(tx) == 'X')
                 continue;
 
             for(int n=0;n<moveRow.length;n++) {
                 int nextX = tx + moveRow[n];
                 int nextY = ty + moveCol[n];
-                if((nextX == startRow && nextY == startCol) ||
-                        nextX < 0 || nextX >= maxRow ||
+                if( nextX < 0 || nextX >= maxRow ||
                         nextY < 0 || nextY >= maxCol ||
-                        table[nextX][nextY] != -1) continue;
+                        table[nextY][nextX] != -1) continue;
 
-                if(!checkStep(nextX, nextY, maze, table)) {
+                if(maze[nextY].charAt(nextX) == 'X')
                     continue;
-                } else {//ミチのマス発見
-                    table[nextX][nextY] = tstep + 1;
+                else {//ミチのマス発見
+                    table[nextY][nextX] = table[ty][tx] + 1;
                     qx.add(nextX);
                     qy.add(nextY);
                 }
@@ -58,9 +46,9 @@ public class MazeMaker {
         }
 
         int ret = 0;
-        for(int i=0;i<maxRow;i++) {
-            for(int j=0;j<maxCol;j++) {
-                if(maze[j].charAt(i) == 'X')
+        for(int i=0;i<maxCol;i++) {
+            for(int j=0;j<maxRow;j++) {
+                if(maze[i].charAt(j) == 'X')
                     continue;
                 if(table[i][j] == -1)
                     return -1;
