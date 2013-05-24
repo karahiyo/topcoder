@@ -1,6 +1,8 @@
 public class NumberMagicEasy {
     public int theNumber(String answer) {
-        return Integer.parseInt((answer.replace('Y', '0')).replace('N', '1'), 2) + 1;
+        answer = answer.replaceAll("Y", "0");
+        answer = answer.replaceAll("N", "1");
+        return Integer.parseInt(answer, 2) + 1;
     }
 
 
