@@ -4,10 +4,7 @@ public class Substitute {
     public int getValue(String key, String code) {
         HashMap<Character, Integer> key_map = new HashMap<Character, Integer>();
         for(int i=0; i<key.length(); i++) {
-            if(i==key.length()-1)
-                key_map.put(key.charAt(i), 0);
-            else
-                key_map.put(key.charAt(i), i+1);
+            key_map.put(key.charAt(i), (i+1)%10);
         }
 
         int ret = 0;
