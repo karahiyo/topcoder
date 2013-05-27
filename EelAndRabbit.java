@@ -14,17 +14,18 @@ public class EelAndRabbit {
         int first = 0;
         int second = 0;
         int[] check = {-1, -1};
+        int[] check2 = {T, 0};
 
         for(int c=0; c<T+1; c++) {
             count = 0;
-            int[] check2 = {T, 0}; 
+            check2[0] = T;
+            check2[1] = 0;
             for(int i=0; i<l.length; i++) {
                 if(t[i] <= c && c <= t[i] + l[i]) {
                     if(check2[0] > t[i])
                         check2[0] = t[i];
                     if(check2[1] < t[i]+l[i])
                         check2[1] = t[i]+l[i];
-                    //System.err.print(c+" / "+i+"\n");
                     count++;
                 }
             }
@@ -35,8 +36,8 @@ public class EelAndRabbit {
                     first = count;
                     continue;
                 }
-                if(check[0] < check2[0] && check[1] > check2[0] ||
-                        check2[0] < check[0] && check2[1] > check[1]) {
+                if((check[0] < check2[0] && check[1] > check2[0]) ||
+                        (check2[0] < check[0] && check2[1] > check[1])) {
                     first = count;
                     check = check2;
                     continue;
