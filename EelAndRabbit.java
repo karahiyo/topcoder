@@ -3,53 +3,27 @@ import java.lang.*;
 
 public class EelAndRabbit {
     public int getmax(int[] l, int[] t) {
-        int T = 0;
-        for(int x: t)
-            T = Math.max(T, x);
+        int cnt = l.length;
+        int res = 0;
 
-
-        int[] map = new int[T+1];
-
-        int count;
-        int first = 0;
-        int second = 0;
-        int[] check = {-1, -1};
-        int[] check2 = {T, 0};
-
-        for(int c=0; c<T+1; c++) {
-            count = 0;
-            check2[0] = T;
-            check2[1] = 0;
-            for(int i=0; i<l.length; i++) {
-                if(t[i] <= c && c <= t[i] + l[i]) {
-                    if(check2[0] > t[i])
-                        check2[0] = t[i];
-                    if(check2[1] < t[i]+l[i])
-                        check2[1] = t[i]+l[i];
-                    count++;
-                }
+        if(cnt <= 2)
+            return cnt;
+        for(int i=0; i<cnt; i++)
+            for(int j=i+1; j<cnt; j++) 
+            {
+            int ta = t[i];
+            int tb = t[j];
+            int catchcnt = 0;
+            for(int k=0; k<cnt; k++)
+            {
+                if((t[k] <= ta && t[k]+l[k] >= ta)
+                        || (t[k]<=tb && t[k]+l[k] >= tb))
+                    catchcnt++;
             }
-
-            if(first <= count) {
-                if(check[0] == -1) {
-                    check = check2;
-                    first = count;
-                    continue;
-                }
-                if((check[0] < check2[0] && check[1] > check2[0]) ||
-                        (check2[0] < check[0] && check2[1] > check[1])) {
-                    first = count;
-                    check = check2;
-                    continue;
-                        }
-                second = first;
-                first = count;
+            if(catchcnt > res)
+                res = catchcnt;
             }
-        }
-
-
-        return first + second;
-
+        return res;
     }
 
 
