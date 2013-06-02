@@ -3,45 +3,36 @@ import java.util.*;
 public class ChessMetric {
     public long howMany(int size, int[] start, int[] end, int numMoves) {
 
-        // KING move.
-        int[] k_mv_x = {-1, -1, 0, 1, 1, 1, 0, -1};
-        int[] k_mv_y = {0, 1, 1, 1, 0, -1, -1, -1};
-        // L move.
-        int[] l_mv_x = {-2, -1, 1, 2, 2, 1, -1, -2};
-        int[] l_mv_y = {1, 2, 2, 1, -1, -2, -2, -1};
-        // All move.
+        // All move = KING + NIGHT move.
         int[] mv_x = {-1, -1, 0, 1, 1, 1, 0, -1, -2, -1, 1, 2, 2, 1, -1, -2};
         int[] mv_y = {0, 1, 1, 1, 0, -1, -1, -1, 1, 2, 2, 1, -1, -2, -2, -1};
 
-        Queue<Integer> qx = new LinkedList<Integer>();
-        Queue<Integer> qy = new LinkedList<Integer>();
+        long[][][] ways = new long[size][size][numMoves+1];
+        for(int i=0; i<size; i++) 
+            for(int j=0; j<size; j++) 
+                for(int k=0; k<numMoves; k++)
+                    ways[i][j][k] = -1;
 
-        qx.add(start[0]);
-        qy.add(start[1]);
+        ways[start[0]][start[1]][0] = 0;
 
-
-        long ret = 0;
         for(int i=0; i<numMoves; i++) {
-            if(qx.isEmpty()) return -1;
-            int a = qx.poll();
-            int b = qy.poll();
-            for(int j=0; j<mv_x.length; j++) {
-                int dx = mv_x[j];
-                int dy = mv_y[j];
-                qx.add(a + mv_x[j]);
-                qy.add(b + mv_y[j]);
+            for(int x=0; x<size; x++) {
+                for(int y=0; y<size; y++) {
+                    if(ways[x][y][i] == -1)
+                        continue;
+                    for(int j=0; j<mv_x.length; j++) {
+                        int dx = mv_x[j];
+                        int dy = mv_y[j];
+                        if(x + dx < 0 || x + dx >= size ||
+                            y + dy < 0 || y + dy >= size)
+                            continue;
+                        ways[x+dx][y+dy][i+1] += ways[x][y][i] + 1;
+                    }
+                }
             }
         }
 
-        while(!qx.isEmpty()) {
-            int x = qx.poll();
-            int y = qy.poll();
-            System.err.print(x+","+y+"\n");
-            if(x == end[0] && y == end[1])
-                ret++;
-        }
-        return ret;
-
+        return ways[end[0]][end[1]][numMoves];
     }
 
 
