@@ -1,7 +1,66 @@
 public class StockHistory {
     public int maximumEarnings(int initialInvestment, int monthlyContribution, String[] stockPrices) {
+        
+        int timeframe = stockPrices.length;
+        int coms_num = stockPrices[0].split(" ").length;
+        int[][] stocks = new int[timeframe][coms_num];
 
+        for(int i=0; i<timeframe; i++) {
+            String[] s = stockPrices[i].split(" ");
+            for(int j=0; j<coms_num; j++) {
+                stocks[i][j] = Integer.parseInt(s[j]);
+            }
+        }
+
+        boolean[] buy = new boolean[timeframe-1];
+        double[] profit = new double[timeframe];
+        double max_profit = 0.0;
+
+        for(int i=0; i<timeframe-1; i++) {
+            double  tmp_profit = 0;
+            for(int j=0; j<coms_num; j++) {
+                int a = stocks[i][j];
+                int b = stocks[timeframe-1][j];
+                if(b > a) {
+                    buy[i] = true;
+                    tmp_profit = Math.max(tmp_profit, (double)b/a);
+                } 
+            }
+            profit[i] = tmp_profit;
+            max_profit = Math.max(max_profit, tmp_profit);
+            System.err.print("** " + profit[i] +"\n");
+        }
+
+        double ret = 0;
+        boolean start = false;
+        int money = monthlyContribution;
+        for(int i=0; i<buy.length; i++) {
+            if(start) {
+                if(buy[i]) {
+                    ret += money * (profit[i] - 1);
+                    System.err.print("["+i+"]"+ profit[i] +" ==>> ");
+                    System.err.print(ret+"\n");
+                } else {
+                    money += monthlyContribution;
+                }
+            }
+            if(max_profit == profit[i] && max_profit > 0) {
+                ret += initialInvestment * (max_profit - 1);
+                System.err.print("*************START\n"+ret+"\n");
+                start = true;
+            }
+        }
+
+        return (int)Math.round(ret);
+        /*
+         * 109/37 = 2.94
+         * 53/37 = 1.43
+         * 53/52 = 1.01
+         *
+         * 1.94*init_money + 0.43 * money + 0.01 * money
+         */
     }
+
 
 
     // BEGIN CUT HERE
