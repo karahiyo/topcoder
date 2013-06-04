@@ -2,78 +2,53 @@ import java.util.*;
 
 public class SurveillanceSystem {
     public String getContainerInfo(String containers, int[] reports, int L) {
+
         int N = containers.length();
-        int R = reports.length;
-        int[] ways = new int[R];
-
-        HashMap<Integer, Integer> reps = new HashMap<Integer, Integer>();
-        for(int i : reports)
-            if(reps.contains(i))
-                reps.put(i, reps.get(i)+1);
-            else
-                reps.put(i, 1);
-
-
-        for(int i=0; i<N-L+1; i++) {
-            int count = 0;
+        int[] counts1 = new int[L + 1];
+        for(int x : reports) {
+            counts1[x]++;
+        }
+        int[] sum = new int[N - L + 1];
+        for(int i=0; i < N - L + 1; i++) {
             for(int j=0; j<L; j++) {
                 if(containers.charAt(i+j) == 'X')
-                    count++;
-            }
-
-            if(reps.contains(count)) {
-                ways[reps.indexOf(count)]++;
+                    sum[i]++;
             }
         }
 
-
-        char[] ret = new char[N];
-        for(int i=0; i<N; i++) { 
-            ret[i] = '0';
-        }
-        int tmp = 0;
-        for(int i=0; i<N-L+1; i++) {
-            int count = 0;
-            for(int j=0; j<L; j++) {
-                if(containers.charAt(i+j) == 'X')
-                    count++;
-            }
-            if(reps.contains(count)) {
-                if(ways[reps.indexOf(count)] == 1) {
-                    for(int j=0; j<L; j++)
-                        ret[i+j] = '+';
-                } else {
-                    tmp++;
-                    for(int j=0; j<L; j++) {
-                        if(ret[i+j] == '+')
-                            continue;
-                        else {
-                            ret[i+j]++;
-                        }
-                    }
-                }
-            }
-        }
-
-        System.err.print("** " + tmp + "\n");
-        System.err.print("** " + String.valueOf(ret)+"\n");
+        boolean[] can0 = new boolean[N];
+        boolean[] can1 = new boolean[N];
         for(int i=0; i<N; i++) {
-            if(ret[i] != '+') {
-                if(ret[i] == '0')
-                    ret[i] = '-';
-                else {
-                    System.err.print("["+i+"] ret[i] ? tmp = " + ret[i] +":" + tmp+"\n");
-                    if((ret[i] - '0') == tmp) {
-                        System.err.print("@@@@ "+i+" \n");
-                        ret[i] = '+';
-                    } else
-                        ret[i] = '?';
+            if(i < N - L + 1 && counts1[sum[i]] > 0) {
+                for(int j=0; j<L; j++) {
+                    can1[i+j] = true;
+                }
+            }
+            int[] counts = new int[L + 1];
+            for(int i1=0; i1 < N - L + 1; i1++) {
+                if(i1 > i || i1 < i - L + 1)
+                    counts[sum[i1]]++;
+            }
+            can0[i] = true;
+            for( int t=0; t<L+1; t++) {
+                if(counts[t] < counts1[t]) {
+                    can0[i] = false;
                 }
             }
         }
 
+        StringBuffer sb = new StringBuffer();
+        for(int i=0; i<N; i++) {
+            if(can0[i] && can1[i]) {
+                sb.append("?");
+            } else if(can1[i]) {
+                sb.append("+");
+            } else if(can0[i]) {
+                sb.append("-");
+            }
+        }
 
-        return String.valueOf(ret);
+        return sb.toString();
 
     }
 
