@@ -1,5 +1,44 @@
+import java.util.*;
+
 public class BatchSystem {
     public int[] schedule(int[] duration, String[] user) {
+        String[] c = new String[duration.length];
+        int index = 0;
+        HashMap<String, Long> h = new HashMap<String, Long>();
+        for(int i=0; i<duration.length; i++) {
+            if(h.containsKey(user[i]))
+                h.put(user[i], h.get(user[i]) + (long)duration[i]);
+            else {
+                h.put(user[i], (long)duration[i]);
+                c[index++] = user[i];
+            }
+        }
+
+        int now = 0;
+        int ret[] = new int[duration.length];
+        for(int i=0; i<index; i++) {
+            long max = Long.MAX_VALUE;
+            String maxVal = "";
+            int kesu = 0;
+            for(int j=0; j<index; j++) {
+                if(max > h.get(c[j])) {
+                    max = h.get(c[j]);
+                    kesu = j;
+                    maxVal = c[j];
+                }
+            }
+            h.put(maxVal, Long.MAX_VALUE);
+            System.err.println(maxVal);
+            for(int j=0; j<duration.length; j++) {
+                if(maxVal.equals(user[j]))
+                    ret[j] = now++;
+            }
+        }
+        int honto[] = new int[duration.length];
+        for(int i=0; i<duration.length; i++) {
+            honto[ret[i]] = i;
+        }
+        return honto;
 
     }
 
