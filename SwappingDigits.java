@@ -12,13 +12,13 @@ public class SwappingDigits {
         for(int i=0; i<len-1; i++) {
             int a = num.charAt(i) - '0';
             maxat = i;
-            int tmpmin=10;
+            min=10;
             for(int j=i+1; j<len; j++) {
                 int b = num.charAt(j) - '0';
                 if(i==0 && b ==0 || b >= a)
                     continue;
-                if(tmpmin >= b ) {
-                    tmpmin = b;
+                if(min >= b ) {
+                    min = b;
                     minat = j;
                 } else {
                     continue;
@@ -30,8 +30,6 @@ public class SwappingDigits {
             if(ns[minat] >= ns[maxat]) {
                 continue;
             }
-            maxat = i;
-            min = tmpmin;
             break;
         }
 
