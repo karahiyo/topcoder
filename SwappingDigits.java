@@ -1,43 +1,85 @@
+import java.util.*;
+
 public class SwappingDigits {
     public String minNumber(String num) {
+
         int len = num.length();
-        boolean[] seen = new boolean[len];
-        int[] ret = new int[len];
-        for(int i=0; i<len; i++) {
-            ret[i] = -1;
-        }
-        int count = 0;
-                
-        for(int n=0; n<10;n++) {
-            for(int i=0; i<len; i++) {
-                if(seen[i]) {
+        char[] ns = num.toCharArray();
+        int min = Integer.MAX_VALUE;
+        int minat = 0;
+        int maxat = 0;
+        
+        for(int i=0; i<len-1; i++) {
+            int a = num.charAt(i) - '0';
+            if(a == 0)
+                continue;
+            for(int j=i+1; j<len; j++) {
+                int b = num.charAt(j) - '0';
+                if(i==0 && b ==0)
                     continue;
-                }
-                int a = num.charAt(i) - '0';
-                if(a == 0) {
-                    ret[i] = 0;
-                    seen[i] = true;
-                    continue;
-                }
-                if(a == n) {
-                    while(ret[count] == 0) {
-                        count++;
-                    }
-                    ret[count] = a;
-                    count++;
-                    seen[i] = true;
+                if(min >= b) {
+                    min = b;
+                    minat = j;
                 }
             }
+            maxat = i;
+            if(ns[minat] > ns[maxat])
+                continue;
+            break;
         }
 
-        String ans="";
-        for(int i=0;i<len;i++)
-            ans += Integer.toString(ret[i]);
 
-        return ans;
+        char tmp = ns[minat];
+        ns[minat] = num.charAt(maxat);
+        ns[maxat] = tmp;
 
-
+        String ret = "";
+        for(int i=0; i<len; i++) {
+            ret += Integer.toString(ns[i] - '0');
+        }
+        return  ret;
     }
+    
+
+        /*
+        int[] nint = new int[len];
+        for(int i=0; i<len; i++) {
+            nint[i] = ns[i] - '0';
+        }
+
+        long min = Long.MAX_VALUE;
+
+        int a,b;
+        for(int i=0; i<len-1; i++) {
+            for (int j=0; j<len;j++) {
+                for(int k=0; k<len; k++) {
+                    nint[k] = ns[k] - '0';
+                }
+                a = nint[i];
+                b = nint[j];
+
+                if(a<=b)
+                    continue;
+                
+                nint[i] = b;
+                nint[j] = a;
+
+                String tmp = "";
+                for(int k=0;k<len;k++) {
+                    tmp += Integer.toString(nint[k]);
+                }
+
+                if(tmp.length() != len) {
+                    System.err.print(tmp.length() + "\n");
+                    continue;
+                }
+                min = Math.min(min, Long.parseLong(tmp));
+            }
+        }
+        return Long.toString(min);
+    }
+    */
+        
 
 
     // BEGIN CUT HERE
