@@ -1,17 +1,17 @@
 import java.util.*;
+import java.math.BigInteger;
 
 public class SwappingDigits {
     public String minNumber(String num) {
-
         int len = num.length();
         char[] ns = num.toCharArray();
         int min = Integer.MAX_VALUE;
         int minat = 0;
         int maxat = 0;
-        
+
         for(int i=0; i<len-1; i++) {
             int a = num.charAt(i) - '0';
-            if(a == 0)
+            if(a == 0 && i==0)
                 continue;
             for(int j=i+1; j<len; j++) {
                 int b = num.charAt(j) - '0';
@@ -39,47 +39,8 @@ public class SwappingDigits {
         }
         return  ret;
     }
-    
 
-        /*
-        int[] nint = new int[len];
-        for(int i=0; i<len; i++) {
-            nint[i] = ns[i] - '0';
-        }
 
-        long min = Long.MAX_VALUE;
-
-        int a,b;
-        for(int i=0; i<len-1; i++) {
-            for (int j=0; j<len;j++) {
-                for(int k=0; k<len; k++) {
-                    nint[k] = ns[k] - '0';
-                }
-                a = nint[i];
-                b = nint[j];
-
-                if(a<=b)
-                    continue;
-                
-                nint[i] = b;
-                nint[j] = a;
-
-                String tmp = "";
-                for(int k=0;k<len;k++) {
-                    tmp += Integer.toString(nint[k]);
-                }
-
-                if(tmp.length() != len) {
-                    System.err.print(tmp.length() + "\n");
-                    continue;
-                }
-                min = Math.min(min, Long.parseLong(tmp));
-            }
-        }
-        return Long.toString(min);
-    }
-    */
-        
 
 
     // BEGIN CUT HERE
@@ -176,12 +137,12 @@ class SwappingDigitsHarness {
 
             // custom cases
 
-            /*      case 5: {
-                    String num                = ;
-                    String expected__         = ;
+                  case 5: {
+                    String num                = "11720376171328422763213753122612211005355347503";
+                    String expected__         = "10720376171328422763213753122612211005355347513";
 
                     return verifyCase(casenum__, expected__, new SwappingDigits().minNumber(num));
-                    }*/
+                    }
             /*      case 6: {
                     String num                = ;
                     String expected__         = ;
