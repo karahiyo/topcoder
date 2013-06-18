@@ -6,28 +6,37 @@ public class SwappingDigits {
         int len = num.length();
         char[] ns = num.toCharArray();
         int min = Integer.MAX_VALUE;
-        int minat = 0;
+        int minat = -1;
         int maxat = 0;
 
         for(int i=0; i<len-1; i++) {
             int a = num.charAt(i) - '0';
-            if(a == 0 && i==0)
-                continue;
+            maxat = i;
+            int tmpmin=10;
             for(int j=i+1; j<len; j++) {
                 int b = num.charAt(j) - '0';
-                if(i==0 && b ==0)
+                if(i==0 && b ==0 || b >= a)
                     continue;
-                if(min >= b) {
-                    min = b;
+                if(tmpmin >= b ) {
+                    tmpmin = b;
                     minat = j;
+                } else {
+                    continue;
                 }
             }
-            maxat = i;
-            if(ns[minat] > ns[maxat])
+            if(minat == -1) {
                 continue;
+            }
+            if(ns[minat] >= ns[maxat]) {
+                continue;
+            }
+            maxat = i;
+            min = tmpmin;
             break;
         }
 
+        if(minat == -1)
+            return num;
 
         char tmp = ns[minat];
         ns[minat] = num.charAt(maxat);
