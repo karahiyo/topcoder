@@ -6,65 +6,59 @@ public class FoxAndGomoku {
         int w = b[0].length();
         int h = b.length;
 
+        // check column
         for (int i=0; i < h; i++) {
-            int c_w = 0;
-            for (int j=0; j<w; j++) {
-                if(b[i].charAt(j) == 'o') {
-                    c_w++;
-                } else {
-                    c_w = 0;
-                }
-                if(c_w >= 5) {
-                    return bad;
-                }
-            }
-
-        }
-
-        for (int i=0; i < h; i++) {
-            int c_w = 0;
-            for (int j=0; j<w; j++) {
-                if(b[j].charAt(i) == 'o') {
-                    c_w++;
-                } else {
-                    c_w = 0;
-                }
-                if(c_w >= 5) {
+            for (int j=0; j<=w-5; j++) {
+                if(b[i].charAt(j+0) == 'o' && 
+                    b[i].charAt(j+1) == 'o' &&
+                    b[i].charAt(j+2) == 'o' &&
+                    b[i].charAt(j+3) == 'o' &&
+                    b[i].charAt(j+4) == 'o') 
+                {
                     return bad;
                 }
             }
         }
 
-        int l = 0;
-        for(int i=0; i<w; i++) {
-            int x = i;
-            int y = 0;
-            int cnt = 0;
-            for(int j = 0; j<h;j++) {
-                if(y+j > h || x-j < 0)
-                    break;
-                if(b[y+j].charAt(x-j) == 'o'){
-                    cnt++;
-                } else {
-                    cnt = 0;
-                }
-                if (cnt >= 5)
+        // check row
+        for (int i=0; i <= h-5; i++) {
+            for (int j=0; j < w; j++) {
+                if(b[i+0].charAt(j) == 'o' &&
+                    b[i+1].charAt(j) == 'o' &&
+                    b[i+2].charAt(j) == 'o' &&
+                    b[i+3].charAt(j) == 'o' &&
+                    b[i+4].charAt(j) == 'o') 
+                {
                     return bad;
+                }
             }
-            
-            x = i;
-            y = 0;
-            cnt = 0;
-            for(int j = 0; j<h;j++) {
-                if(y+j > h || x+j >= w)
-                    break;
-                if(b[y+j].charAt(x+j) == 'o'){
-                    cnt++;
-                } else {
-                    cnt = 0;
-                }
-                if (cnt >= 5)
+        }
+
+        // check L verical
+        for (int i=0; i < h-5; i++) {
+            for (int j=w-1; j >= w-5; j--) {
+                if(b[i+0].charAt(j-0) == 'o' &&
+                    b[i+1].charAt(j-1) == 'o' &&
+                    b[i+2].charAt(j-2) == 'o' &&
+                    b[i+3].charAt(j-3) == 'o' &&
+                    b[i+4].charAt(j-4) == 'o')
+                {
                     return bad;
+                }
+            }
+        }
+
+        // check R verical
+        for (int i=0; i <= h-5; i++) {
+            for (int j=0; j <= w-5; j++) {
+                if(b[i+0].charAt(j+0) == 'o' &&
+                    b[i+1].charAt(j+1) == 'o' &&
+                    b[i+2].charAt(j+2) == 'o' &&
+                    b[i+3].charAt(j+3) == 'o' &&
+                    b[i+4].charAt(j+4) == 'o')
+                {
+                    return bad;
+                }
             }
         }
 
