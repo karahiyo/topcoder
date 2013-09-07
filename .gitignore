@@ -2,3 +2,6 @@
 ./**/*.class
 arena.jnlp
 tmp
+*.swp
+.DS*
+Contest*.jnlp
